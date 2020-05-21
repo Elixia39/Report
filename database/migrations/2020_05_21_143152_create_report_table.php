@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Holiday extends Migration
+class CreateReportTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class Holiday extends Migration
      */
     public function up()
     {
-        Schema::create('Holidays', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->date('day');
-            $table->string('description')->comment('ççą');
+            $table->integer('folder_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class Holiday extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Holidays');
+        Schema::dropIfExists('reports');
     }
 }

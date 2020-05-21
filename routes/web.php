@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', 'CalendarController@index')->name('home');
 
 
+// Route::get('/setEvents', 'EventController@setEvents');
+// Route::post('/ajax/addEvent', 'EventController@addEvent');
+// Route::post('/ajax/editEventDate', 'EventController@editEventDate');
 
-Route::get('/report/{id}/reports', 'CalendarController@index')->name('home');
+Route::get('/', 'CalendarController@index')->name('home');
 
 //休日設定
 Route::get('/report', 'CalendarController@getHoliday')->name('calendar.holiday');
@@ -30,3 +32,12 @@ Route::post('/report/{id}', 'CalendarController@deleteHoliday')->name('delete.ho
 //フォルダ作成機能
 Route::get('/report/folders/create', 'FolderController@showCreateForm')->name('folders.create');
 Route::post('/report/folders/create', 'FolderController@create');
+
+//日報作成機能
+Route::get('/report/DailyReport/create', 'ReportController@showCreateForm')->name('reports.create');
+Route::post('/report/DailyReport/create', 'ReportController@create');
+
+Route::view('/test/report', 'test02');
+
+//日報一覧ページ
+Route::get('/folders/{id}/reports', 'ReportController@index')->name('reports.index');

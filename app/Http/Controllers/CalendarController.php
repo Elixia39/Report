@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Calendar;
 use App\Folder;
 use App\Holiday;
@@ -9,18 +10,18 @@ use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
-    public function index(Request $request, int $id)
+    public function index(Request $request)
     {
-        $folders = Folder::all();
+        $folders = Folder::find(1);
 
         $list = Holiday::all();
         $cal = new Calendar($list);
-        $tag = $cal->showCalendarTag($request->month, $request->year);
+        //$tag = $cal->showCalendarTag($request->month, $request->year);
+        $tag = $cal->rendarCalendar($request->month, $request->year);
 
         return view('calendar.index', [
             'cal_tag' => $tag,
             'folders' => $folders,
-            'current_folder_id' => $id,
         ]);
     }
 

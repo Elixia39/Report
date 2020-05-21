@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Calendar;
 use App\Folder;
+use App\Calendar;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateFolder;
+use Carbon\CarbonImmutable;
 
 class FolderController extends Controller
 {
@@ -21,7 +22,7 @@ class FolderController extends Controller
         $folder->title = $request->title;
         $folder->save();
 
-        return redirect()->route('home', [
+        return redirect()->route('reports.index', [
             'id' => $folder->id,
         ]);
     }

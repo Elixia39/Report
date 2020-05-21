@@ -13,22 +13,8 @@
                 <div class="panel-body">
                     {!!$cal_tag!!}
                     <a class="btn btn-primary" href="{{ route('calendar.holiday') }}">休日登録</a>
-                </div>
-            </nav>
-        </div>
-
-        <div class="column col-md-4">
-            <nav class="panel panel-default">
-                <div class="panel panel-heading">「ユーザーネーム」さん毎月分フォルダ</div>
-                <div class="panel-body">
-                    <a class="btn btn-default btn-block" href="{{ route('folders.create') }}">フォルダ作成</a>
-                </div>
-                <div class="list-group">
-                    @foreach($folders as $folder)
-                    <a href="{{ route('home', ['id'=>$folder->id]) }}" class="list-group-item {{ $current_folder_id === $folder->id ? 'active' : '' }}">
-                        {{ $folder->title }}
-                    </a>
-                    @endforeach
+                    <a class="btn btn-primary" href="{{ action('ReportController@index',['id' => $folders->id]) }}">日報一覧</a>
+                    <a class="btn" href="/test/report">実験用</a>
                 </div>
             </nav>
         </div>
