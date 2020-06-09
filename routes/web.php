@@ -34,10 +34,13 @@ Route::get('/report/folders/create', 'FolderController@showCreateForm')->name('f
 Route::post('/report/folders/create', 'FolderController@create');
 
 //日報作成機能
-Route::get('/report/DailyReport/create', 'ReportController@showCreateForm')->name('reports.create');
-Route::post('/report/DailyReport/create', 'ReportController@create');
+Route::get('/report/{id}/DailyReport/create', 'ReportController@showCreateForm')->name('reports.create');
+Route::post('/report/{id}/DailyReport/create', 'ReportController@create');
+
 
 Route::view('/test/report', 'test02');
+
+Route::view('/akamimi', 'akamimi');
 
 //日報一覧ページ
 Route::get('/folders/{id}/reports', 'ReportController@index')->name('reports.index');

@@ -14,6 +14,9 @@ class CalendarController extends Controller
     {
         $folders = Folder::find(1);
 
+        //フォルダがなかったらフォルダ作るためのviewを用意する
+        //if文も置きます
+
         $list = Holiday::all();
         $cal = new Calendar($list);
         //$tag = $cal->showCalendarTag($request->month, $request->year);

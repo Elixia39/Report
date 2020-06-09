@@ -12,9 +12,18 @@ class ReportController extends Controller
         $folders = Folder::all();
         $current_folder = Folder::find($id);
 
+        //ここにフォルダーなかった時のif文を置きます
+
         return view('reports.index', [
             'folders' => $folders,
             'current_folder_id' => $id,
+        ]);
+    }
+
+    public function showCreateForm(int $id)
+    {
+        return view('reports.create', [
+            'folder_id' => $id,
         ]);
     }
 }
