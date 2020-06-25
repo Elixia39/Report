@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventsTable extends Migration
+class AddUserUnique extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
-            $table->string('event_id', 34)->primary();
-            $table->date('date');
-            $table->string('title');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unique('name');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropUnique('name');
+        });
     }
 }

@@ -7,6 +7,7 @@ use App\Calendar;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateFolder;
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\Auth;
 
 class FolderController extends Controller
 {
@@ -20,10 +21,11 @@ class FolderController extends Controller
     {
         $folder = new Folder();
         $folder->title = $request->title;
-        $folder->save();
+
+        Auth::user()->folders()->save($folder);
 
         return redirect()->route('reports.index', [
-            'id' => $folder->id,
+            'folder' => $folder->id,
         ]);
     }
 }

@@ -9,12 +9,19 @@
     <div class="row">
         <div class="col col-md-9">
             <nav class="panel panel-default">
-                <div class="panel-heading">{{ date("m") }}月分「ユーザーネーム」さん日報</div>
+                <div class="panel-heading">
+                    @if (Auth::check())
+                    {{ date("m") }}月分 {{ Auth::user()->name }} さんスケジュール
+                    @else
+                    {{ date("m") }}月 カレンダー
+                    @endif
+                </div>
                 <div class="panel-body">
                     {!!$cal_tag!!}
+                    @if (Auth::check())
                     <a class="btn btn-primary" href="{{ route('calendar.holiday') }}">休日登録</a>
-                    <a class="btn btn-primary" href="{{ action('ReportController@index',['id' => $folders->id]) }}">日報一覧</a>
-                    <a class="btn" href="/test/report">実験用</a>
+                    <a class="btn btn-primary" href="{{ route('reports.index', ['folder'=>$folder->id]) }}">日報一覧</a>
+                    @endif
                 </div>
             </nav>
         </div>

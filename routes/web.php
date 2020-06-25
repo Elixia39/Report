@@ -19,28 +19,35 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/ajax/addEvent', 'EventController@addEvent');
 // Route::post('/ajax/editEventDate', 'EventController@editEventDate');
 
-Route::get('/', 'CalendarController@index')->name('home');
 
-//休日設定
-Route::get('/report', 'CalendarController@getHoliday')->name('calendar.holiday');
-Route::post('/report', 'CalendarController@createHoliday');
+Route::group(['middlewere' => 'auth'], function () {
+    Route::get('/', 'CalendarController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('main');
 
-//休日の編集機能(更新と削除)
-Route::get('/report/{id}', 'CalendarController@getHolidayId')->name('calendar.edit');
-Route::post('/report/{id}', 'CalendarController@deleteHoliday')->name('delete.holiday');
+    //フォルダ作成機能
+    Route::get('/report/folders/create', 'FolderController@showCreateForm')->name('folders.create');
+    Route::post('/report/folders/create', 'FolderController@create');
 
-//フォルダ作成機能
-Route::get('/report/folders/create', 'FolderController@showCreateForm')->name('folders.create');
-Route::post('/report/folders/create', 'FolderController@create');
+    //休日設定
+    Route::get('/report', 'CalendarController@getHoliday')->name('calendar.holiday');
+    Route::post('/report', 'CalendarController@createHoliday');
+    //休日の編集機能(更新と削除)
+    Route::get('/report/{id}', 'CalendarController@getHolidayId')->name('calendar.edit');
+    Route::post('/report/{id}', 'CalendarController@deleteHoliday')->name('delete.holiday');
 
-//日報作成機能
-Route::get('/report/{id}/DailyReport/create', 'ReportController@showCreateForm')->name('reports.create');
-Route::post('/report/{id}/DailyReport/create', 'ReportController@create');
+    Route::group(['middleware' => ['can:view,folder']], function () {
 
+        //日報一覧ページ
+        Route::get('/folders/{folder}/reports', 'ReportController@index')->name('reports.index');
 
-Route::view('/test/report', 'test02');
+        //日報作成機能
+        Route::get('/report/{folder}/DailyReport/create', 'ReportController@showCreateForm')->name('reports.create');
+        Route::post('/report/{folder}/DailyReport/create', 'ReportController@create');
 
-Route::view('/akamimi', 'akamimi');
+        //日報編集機能
+        Route::get('/report/{folder}/DailyReport/{report}/edit', 'ReportController@showEditForm')->name('reports.edit');
+        Route::post('/report/{folder}/DailyReport/{report}/edit', 'ReportController@edit');
+    });
+});
 
-//日報一覧ページ
-Route::get('/folders/{id}/reports', 'ReportController@index')->name('reports.index');
+Auth::routes();
