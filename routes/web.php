@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/ajax/editEventDate', 'EventController@editEventDate');
 
 
-Route::group(['middlewere' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'CalendarController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('main');
 
@@ -49,5 +49,11 @@ Route::group(['middlewere' => 'auth'], function () {
         Route::post('/report/{folder}/DailyReport/{report}/edit', 'ReportController@edit');
     });
 });
+
+
+Route::get('/test', 'TestController@index')->name('test');
+Route::post('/test', 'TestController@keisan')->name('keisan');
+
+
 
 Auth::routes();
