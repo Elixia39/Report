@@ -15,17 +15,18 @@ class Report extends Model
         5 => ['label' => 'とても悪い'],
     ];
 
-    public function getConditionLabelAttribute1()
+    public function getAmConditionLabelAttribute()
     {
         $condition = $this->attributes['am_condition'];
 
         if (!isset(self::CONDITION[$condition])) {
             return '';
         }
+
         return self::CONDITION[$condition]['label'];
     }
 
-    public function getConditionLabelAttribute2()
+    public function getPmConditionLabelAttribute()
     {
         $condition = $this->attributes['pm_condition'];
 

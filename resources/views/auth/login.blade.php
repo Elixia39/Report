@@ -17,7 +17,7 @@
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="name">ユーザーネーム</label>
+                            <label for="name">ユーザー名</label>
                             <input type="name" class="form-control" id="name" name="name" value="{{ old('name') }}" />
                         </div>
                         <div class="form-group">

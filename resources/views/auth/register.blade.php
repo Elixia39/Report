@@ -21,7 +21,7 @@
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" />
                         </div>
                         <div class="form-group">
-                            <label for="password">パスワード</label>
+                            <label for="password">パスワード（4文字以上）</label>
                             <input type="password" class="form-control" id="password" name="password">
                         </div>
                         <div class="form-group">

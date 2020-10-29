@@ -8,6 +8,9 @@ use App\Http\Requests\CreateReport;
 use App\Http\Requests\EditReport;
 use App\Report;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PostSent;
+use App\User;
 
 class ReportController extends Controller
 {
@@ -51,6 +54,9 @@ class ReportController extends Controller
 
         $folder->reports()->save($report);
 
+        $to = array('million.elixia@gmail.com','nippou@apple-osaka.com');
+        Mail::to($to)->send(new PostSent($report));
+
         return redirect()->route('reports.index', [
             'folder' => $folder->id,
         ]);
@@ -85,6 +91,7 @@ class ReportController extends Controller
 
         $report->save();
 
+        
         return redirect()->route('reports.index', [
             'folder' => $report->folder_id,
         ]);

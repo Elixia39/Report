@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col col-md-12">
             <nav class="panel panel-default">
-                <div class="panel-heading">test作成君</div>
+                <div class="panel-heading">日報（編集）</div>
                 <div class="panel-body">
                     @if ($errors->any())
                     <div class="alert alert-danger">

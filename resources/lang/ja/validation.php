@@ -106,6 +106,8 @@ return [
     'attributes' => [
         'day' => '日付',
         'description' => '説明',
+        'name' => 'ユーザー名',
+        'password' => 'パスワード',
     ],
 
 ];

@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col col-md-4">
             <nav class="panel panel-default">
-                <div class="panel-heading">休日設定：<a href="{{ route('home') }}">カレンダーに戻る</a></div>
+                <div class="panel-heading">休日設定：<a href="{{ route('home') }}" class="btn btn-primary">カレンダーに戻る</a></div>
                 <div class="panel-body">
                     @if ($errors->any())
                     <div class="alert alert-danger">
