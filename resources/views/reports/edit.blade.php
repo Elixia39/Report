@@ -125,18 +125,16 @@
                         <div class="form-group">
                             <label for="interview">面談希望</label>
 
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <input class="form-check-input" type="radio" name="check" onclick="formSwitch()" checked>
                                 <label for="form-check-label">なし</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="check" onclick="formSwitch()">
                                 <label for="form-check-label">あり</label>
-                            </div>
+                            </div> --}}
 
-                            <div id="interview">
-                                <input type="datetime-local" name="interview" id="interview" value="{{ old('interview',$report->interview) }}">
-                            </div>
+                            <input type="datetime-local" name="interview" id="interview" value="{{ old('interview',$report->interview) }}">
                         </div>
 
                         <div class="form-group">
@@ -151,6 +149,20 @@
         </div>
     </div>
 </div>
+
+<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ja.js"></script>
+<script>
+    flatpickr(document.getElementById('interview'), {
+    locale: 'ja',
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    minTime: "10:00",
+    maxTime: "17:00"
+    //minDate: new Date(),
+  });
+</script>
+
 <script>
     function formSwitch() {
 hoge = document.getElementsByName('check')

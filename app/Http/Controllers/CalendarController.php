@@ -8,6 +8,10 @@ use App\Folder;
 use App\Holiday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PostMail;
+use App\User;
+use App\Report;
 
 class CalendarController extends Controller
 {
@@ -15,6 +19,7 @@ class CalendarController extends Controller
     {
 
         $user = Auth::user();
+        $report = new Report();
 
         if (Auth::check()) {
             $list = Auth::user()->holidays()->get();
@@ -29,12 +34,15 @@ class CalendarController extends Controller
             return view('home');
         }
 
-        $cal = new Calendar($list);
+        $reports = $folder->reports()->get();
+
+        $cal = new Calendar($list,$report);
         $tag = $cal->rendarCalendar($request->month, $request->year);
 
         return view('calendar.index', [
             'cal_tag' => $tag,
             'folder' => $folder,
+            //'reports' => $reports,
         ]);
     }
 
@@ -82,13 +90,20 @@ class CalendarController extends Controller
             $holiday = Holiday::where('id', '=', $request->id)->first();
             $holiday->day = $request->day;
             $holiday->description = $request->description;
+
             Auth::user()->holidays()->save($holiday);
+
+            $to = array('ここにめあど');
+            Mail::to($to)->send(new PostMail($holiday));
         } else {
             $holiday = new Holiday();
             $holiday->day = $request->day;
             $holiday->description = $request->description;
+
             Auth::user()->holidays()->save($holiday);
-            //$holiday->save();
+
+            $to = array('ここにめあど');
+            Mail::to($to)->send(new PostMail($holiday));
         }
         // 休日データ取得
         $data = new Holiday();
@@ -104,6 +119,10 @@ class CalendarController extends Controller
         if (isset($request->id)) {
             $holiday = Holiday::where('id', '=', $request->id)->first();
             $holiday->delete();
+
+            //ここにメールの記述
+            //削除時に別のメソッド用意するのがめんどくさい(メールとして受け取る必要性があまり感じない)
+            //個別で該当するメールを消すか、メーラーを作成するかになる
         }
         // 休日データ取得
         $data = new Holiday();

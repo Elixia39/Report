@@ -86,6 +86,8 @@
                                 <option value="SST"></option>
                                 <option value="軽スポーツ"></option>
                                 <option value="メンタルヘルス"></option>
+                                <option value="も"></option>
+                                <option value="軽作業"></option>
                             </datalist>
                         </div>
 
@@ -108,7 +110,6 @@
                                 <option value="SST"></option>
                                 <option value="軽スポーツ"></option>
                                 <option value="メンタルヘルス"></option>
-                                <option value="なし"></option>
                             </datalist>
                         </div>
 
@@ -134,9 +135,7 @@
                                 <label for="form-check-label">あり</label>
                             </div>
 
-                            <div id="interview">
                                 <input type="datetime-local" name="interview" id="interview">
-                            </div>
                         </div>
 
                         <div class="form-group">
@@ -151,6 +150,21 @@
         </div>
     </div>
 </div>
+
+<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ja.js"></script>
+<script>
+    flatpickr(document.getElementById('interview'), {
+    locale: 'ja',
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    minTime: "10:00",
+    maxTime: "17:00"
+    //minDate: new Date(),
+  });
+</script>
+
+
 <script>
     function formSwitch() {
 hoge = document.getElementsByName('check')

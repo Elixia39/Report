@@ -15,13 +15,14 @@
                     @else
                     {{ date("m") }}月 カレンダー
                     @endif
-                </div>
-                <div class="panel-body">
-                    {!!$cal_tag!!}
+                    
                     @if (Auth::check())
                     <a class="btn btn-primary" href="{{ route('reports.index', ['folder'=>$folder->id]) }}">日報を登録する</a>
                     <a class="btn btn-primary" href="{{ route('calendar.holiday') }}">休日を登録する</a>
                     @endif
+                </div>
+                <div class="panel-body">
+                    {!!$cal_tag!!}
                 </div>
             </nav>
         </div>
