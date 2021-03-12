@@ -53,7 +53,7 @@ class ReportController extends Controller
 
         $folder->reports()->save($report);
 
-        $to = array('ここメアド');
+        $to = array('ここにメアド');
         Mail::to($to)->send(new PostSent($report));
 
         return redirect()->route('reports.index', [
