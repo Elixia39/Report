@@ -6,23 +6,22 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Report;
 use App\Folder;
+use App\User;
+use App\Check;
 
 class Calendar
 {
     private $holidays;
     private $html;
-    public $report;
+    private $checks;
 
-    function __construct($holidays,$report)
+    function __construct($holidays)
     {
         $this->holidays = $holidays;
-        $this->report = $report;
     }
 
     public function rendarCalendar($dt)
     {
-        $report = new Report();
-        $folder = new Folder();
 
         $m = (isset($_GET['m'])) ? htmlspecialchars($_GET['m'], ENT_QUOTES, 'utf-8') : '';
         $y = (isset($_GET['y'])) ? htmlspecialchars($_GET['y'], ENT_QUOTES, 'utf-8') : '';
@@ -96,6 +95,18 @@ EOS;
                 //今日の日付
                 $calendar .= '<td class="day" style="background-color:#b8d200">' . '<p>' . $dt->day . '</p>';
                 $target = date("Y-m-d", mktime(0, 0, 0, $dt->month, $dt->day, $dt->year));
+
+                $checks = new Check();
+                        $check = Auth::user()->checks()->get();
+                        foreach ($check as $val) {
+                            if ($val->day == $target) {
+                                if (Auth::check()) {
+                                    $calendar .= e($val->day) . "<br>";
+                                    //$calendar .= $val->discription;
+                                    break;
+                                }
+                            }
+                        }
                 foreach ($this->holidays as $val) {
                     if ($val->day == $target) {
                         if (Auth::check()) {
@@ -141,27 +152,22 @@ EOS;
                         //その他(普通の日)
                         $calendar .= '<td class="day">' . '<p>' . $dt->day . '</p>' . '&nbsp';
                         $target = date("Y-m-d", mktime(0, 0, 0, $dt->month, $dt->day, $dt->year));
-                        foreach ($report as $val) {
-                            if ($val == $target) {
+
+                        $checks = new Check();
+                        $check = Auth::user()->checks()->get();
+                        foreach ($check as $val) {
+                            if ($val->day == $target) {
                                 if (Auth::check()) {
-                                    //$calendar .= e($val);
-                                    //$calendar .= $report;
-                                    $calendar .= e($target);
-                                    //チェックボックスとかで応用してみる？
+                                    $calendar .= e($val->day) . "<br>";
                                     break;
                                 }
                             }
                         }
 
-                        //foreachの休日設定と同じ構文を試そう
                         foreach ($this->holidays as $val) {
                             if ($val->day == $target) {
                                 if (Auth::check()) {
                                     $calendar .= e($val->description);
-                                    //$calendar .= e($val->day);
-                                    //$calendar .= $val;
-                                    //ここにifでその日に対応する日報があれば～って構文足せば行けそう 駄目だった
-                                    //$calendar .= e(Report::whereDate('report_date','yyyy-mm-dd')->get());
                                     break;
                                 }
                             }
@@ -172,6 +178,12 @@ EOS;
             }
             $dt->addDay();
         }
+
+
+        //日付が登録されたらその日のチェックボックスにcheckを入れる
+        //もしくは「入力済み」とかの文字を出す
+        //予定がある日に日報は入れないはずなので大丈夫
+
         $calendar .= '</tr></tbody>';
         $calendar .= '</table>';
 

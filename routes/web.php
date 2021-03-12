@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'CalendarController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('main');
+    Route::post('/', 'CalendarController@create')->name('repo.check');
 
     //フォルダ作成機能
     Route::get('/report/folders/create', 'FolderController@showCreateForm')->name('folders.create');
@@ -49,11 +50,5 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/report/{folder}/DailyReport/{report}/edit', 'ReportController@edit');
     });
 });
-
-
-Route::get('/test', 'TestController@index')->name('test');
-Route::post('/test', 'TestController@keisan')->name('keisan');
-
-
 
 Auth::routes();

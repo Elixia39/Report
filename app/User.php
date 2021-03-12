@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Holiday');
     }
+
+    public function checks()
+    {
+        return $this->hasMany('APP\Check');
+    }
 }

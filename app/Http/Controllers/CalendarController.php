@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Calendar;
+use App\Check;
 use App\Folder;
 use App\Holiday;
 use Illuminate\Http\Request;
@@ -19,11 +20,11 @@ class CalendarController extends Controller
     {
 
         $user = Auth::user();
-        $report = new Report();
 
         if (Auth::check()) {
             $list = Auth::user()->holidays()->get();
             $folder = $user->folders()->first();
+            //$checkList = Auth::user()->checks()->get();
         } else {
             $list = Holiday::all();
             $folder = Folder::find(1);
@@ -34,16 +35,32 @@ class CalendarController extends Controller
             return view('home');
         }
 
-        $reports = $folder->reports()->get();
-
-        $cal = new Calendar($list,$report);
+        $cal = new Calendar($list);
         $tag = $cal->rendarCalendar($request->month, $request->year);
 
         return view('calendar.index', [
             'cal_tag' => $tag,
             'folder' => $folder,
-            //'reports' => $reports,
         ]);
+    }
+
+    //ここにチェックを入れるためのクリエイト文を書く
+    public function create(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'day' => 'required',
+        ]);
+
+        $check = new Check();
+
+        $check->day = $request->day;
+        $check->description = $request->description;
+
+        Auth::user()->checks()->save($check);
+
+        return redirect('/');
+
     }
 
     public function getHoliday()
@@ -94,7 +111,7 @@ class CalendarController extends Controller
             Auth::user()->holidays()->save($holiday);
 
             $to = array('ここにめあど');
-            Mail::to($to)->send(new PostMail($holiday));
+            //Mail::to($to)->send(new PostMail($holiday));
         } else {
             $holiday = new Holiday();
             $holiday->day = $request->day;
@@ -103,7 +120,7 @@ class CalendarController extends Controller
             Auth::user()->holidays()->save($holiday);
 
             $to = array('ここにめあど');
-            Mail::to($to)->send(new PostMail($holiday));
+            //Mail::to($to)->send(new PostMail($holiday));
         }
         // 休日データ取得
         $data = new Holiday();

@@ -17,6 +17,5 @@
                 </div>
             </nav>
         </div>
-        </>
     </div>
     @endsection
